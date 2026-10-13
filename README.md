@@ -25,6 +25,8 @@ npm run build
 npm run preview
 ```
 
+`npm run build` 会通过 `vite-plugin-singlefile` 把 JS/CSS 全部内联进 `dist/index.html`，这份单文件可以直接双击打开，不需要本地服务。
+
 ## 数据更新
 
 题面数据位于 `data/projects.json`，字段包括方向、难度、摘要、技术栈、GitHub 地址、星级、学习点、建议步骤与三档验收标准。
