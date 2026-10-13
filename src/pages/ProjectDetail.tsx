@@ -2,6 +2,7 @@ import { ArrowLeft, BookOpen, ExternalLink, Play, Puzzle, UserRound } from 'luci
 import { Link, useParams } from 'react-router-dom'
 import DifficultyBadge from '../components/DifficultyBadge'
 import EmptyState from '../components/EmptyState'
+import InspectorPanel from '../components/InspectorPanel'
 import { getProject, SOURCE_URL } from '../lib/data'
 import { useAgentConfig, useCompleted, useNote } from '../lib/storage'
 
@@ -170,6 +171,8 @@ export default function ProjectDetail() {
             aria-label="练习笔记"
           />
         </section>
+
+        <InspectorPanel project={project} />
       </div>
     </div>
   )

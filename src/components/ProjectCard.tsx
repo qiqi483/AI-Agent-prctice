@@ -47,7 +47,9 @@ export default function ProjectCard({ project, index, isDone, onToggle }: Projec
           onClick={() => onToggle(project.id)}
           aria-pressed={isDone}
         >
-          <Check size={15} aria-hidden="true" />
+          <span className="done-box" aria-hidden="true">
+            {isDone && <Check size={13} />}
+          </span>
           {isDone ? '已完成' : '标记完成'}
         </button>
         <Link className="card-link" to={`/project/${project.id}`}>

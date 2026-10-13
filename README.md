@@ -1,6 +1,8 @@
 # Agent 项目练习场
 
-把 [learnagent.org/projects/](https://learnagent.org/projects/) 的热门 Agent GitHub 项目整理成可练习、可追踪进度的练手平台。站点默认包含 21 个热门项目与 2 篇深度案例，支持方向/难度筛选、搜索、排序、完成打卡、练习笔记、我的 Agent 配置和深浅双主题。
+把 [learnagent.org/projects/](https://learnagent.org/projects/) 的热门 Agent GitHub 项目整理成可练习、可追踪进度的练手平台。站点默认包含 21 个热门项目与 2 篇深度案例，支持方向/难度筛选、搜索、排序、完成打卡、练习笔记、我的 Agent 配置、深浅双主题和 AI 检察官。
+
+AI 检察官是纯本地规则引擎：选择项目文件夹后，按完成度、创新度、与原项目相似度、美观度四个维度打分，并给出证据与改进建议，文件不会上传到任何服务器。
 
 ## 技术栈
 

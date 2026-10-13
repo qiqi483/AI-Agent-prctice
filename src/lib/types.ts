@@ -32,3 +32,26 @@ export interface AgentConfig {
 }
 
 export type ThemeMode = 'dark' | 'light'
+
+export interface InspectorDimensionScores {
+  completion: number
+  innovation: number
+  similarity: number
+  aesthetics: number
+}
+
+export interface InspectorFinding {
+  dimension: string
+  level: 'good' | 'warn' | 'miss'
+  text: string
+}
+
+export interface InspectorReport {
+  projectId: string
+  checkedAt: string
+  fileCount: number
+  total: number
+  dimensions: InspectorDimensionScores
+  findings: InspectorFinding[]
+  summary: string
+}

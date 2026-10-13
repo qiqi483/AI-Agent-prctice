@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
-import type { AgentConfig, ThemeMode } from './types'
+import type { AgentConfig, InspectorReport, ThemeMode } from './types'
 
 const PREFIX = 'apg:'
 const KEYS = {
@@ -7,6 +7,7 @@ const KEYS = {
   agent: 'agent',
   completed: 'completed',
   notes: 'notes',
+  reports: 'reports',
 } as const
 
 function read<T>(key: string, fallback: T): T {
@@ -39,11 +40,13 @@ const store: {
   agent: AgentConfig
   completed: string[]
   notes: Record<string, string>
+  reports: Record<string, InspectorReport>
 } = {
   theme: read<ThemeMode>(KEYS.theme, 'dark'),
   agent: read<AgentConfig>(KEYS.agent, DEFAULT_AGENT),
   completed: read<string[]>(KEYS.completed, []),
   notes: read<Record<string, string>>(KEYS.notes, {}),
+  reports: read<Record<string, InspectorReport>>(KEYS.reports, {}),
 }
 
 type Listener = () => void
@@ -111,6 +114,15 @@ export function setNote(id: string, text: string): void {
   write(KEYS.notes, notes)
 }
 
+export function getReport(id: string): InspectorReport | undefined {
+  return store.reports[id]
+}
+
+export function setReport(report: InspectorReport): void {
+  store.reports = { ...store.reports, [report.projectId]: report }
+  write(KEYS.reports, store.reports)
+}
+
 export function useTheme(): [ThemeMode, (theme: ThemeMode) => void] {
   const theme = useStore(getTheme)
 
@@ -168,4 +180,15 @@ export function useNote(id: string): [string, (text: string) => void] {
   )
 
   return [note, changeNote]
+}
+
+export function useReport(id: string): [InspectorReport | undefined, (report: InspectorReport) => void] {
+  const report = useStore(() => getReport(id))
+
+  const changeReport = useCallback((next: InspectorReport) => {
+    setReport(next)
+    emitChange()
+  }, [])
+
+  return [report, changeReport]
 }
