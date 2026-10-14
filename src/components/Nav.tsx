@@ -5,6 +5,8 @@ import { useAgentConfig, useTheme } from '../lib/storage'
 const LINKS = [
   { to: '/', label: '首页' },
   { to: '/projects', label: '项目库' },
+  { to: '/learn', label: '学习' },
+  { to: '/forum', label: '论坛' },
   { to: '/my-agent', label: '我的 Agent' },
   { to: '/about', label: '关于' },
 ]

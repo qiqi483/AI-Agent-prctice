@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
-import type { AgentConfig, InspectorReport, ThemeMode } from './types'
+import type { AgentConfig, AuthUser, ForumPost, InspectorReport, ThemeMode } from './types'
 
 const PREFIX = 'apg:'
 const KEYS = {
@@ -8,6 +8,8 @@ const KEYS = {
   completed: 'completed',
   notes: 'notes',
   reports: 'reports',
+  auth: 'auth',
+  posts: 'posts',
 } as const
 
 function read<T>(key: string, fallback: T): T {
@@ -41,12 +43,16 @@ const store: {
   completed: string[]
   notes: Record<string, string>
   reports: Record<string, InspectorReport>
+  auth: AuthUser | null
+  posts: ForumPost[]
 } = {
   theme: read<ThemeMode>(KEYS.theme, 'dark'),
   agent: read<AgentConfig>(KEYS.agent, DEFAULT_AGENT),
   completed: read<string[]>(KEYS.completed, []),
   notes: read<Record<string, string>>(KEYS.notes, {}),
   reports: read<Record<string, InspectorReport>>(KEYS.reports, {}),
+  auth: read<AuthUser | null>(KEYS.auth, null),
+  posts: read<ForumPost[]>(KEYS.posts, []),
 }
 
 type Listener = () => void
@@ -191,4 +197,38 @@ export function useReport(id: string): [InspectorReport | undefined, (report: In
   }, [])
 
   return [report, changeReport]
+}
+
+export function getAuthUser(): AuthUser | null {
+  return store.auth
+}
+
+export function signIn(user: AuthUser): void {
+  store.auth = user
+  write(KEYS.auth, user)
+  emitChange()
+}
+
+export function signOut(): void {
+  store.auth = null
+  write(KEYS.auth, null)
+  emitChange()
+}
+
+export function useAuthUser(): AuthUser | null {
+  return useStore(getAuthUser)
+}
+
+export function getPosts(): ForumPost[] {
+  return store.posts
+}
+
+export function addPost(post: ForumPost): void {
+  store.posts = [post, ...store.posts]
+  write(KEYS.posts, store.posts)
+  emitChange()
+}
+
+export function usePosts(): ForumPost[] {
+  return useStore(getPosts)
 }

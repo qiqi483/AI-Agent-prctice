@@ -55,3 +55,34 @@ export interface InspectorReport {
   findings: InspectorFinding[]
   summary: string
 }
+
+export interface LearningArticle {
+  id: string
+  title: string
+  author: string
+  date: string
+  url: string
+  summary: string
+  topics: string[]
+  note?: string
+}
+
+export interface LearningResource {
+  id: string
+  title: string
+  url: string
+  note?: string
+}
+
+export interface AuthUser {
+  nickname: string
+  method: 'password' | 'wechat'
+}
+
+export interface ForumPost {
+  id: string
+  author: string
+  content: string
+  image?: string
+  createdAt: number
+}

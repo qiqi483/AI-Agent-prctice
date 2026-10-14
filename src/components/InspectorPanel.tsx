@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   FolderUp,
+  Link2,
   Loader2,
   ShieldCheck,
   XCircle,
@@ -32,6 +33,8 @@ export default function InspectorPanel({ project }: { project: Project }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [dragging, setDragging] = useState(false)
+  const [mode, setMode] = useState<'folder' | 'link'>('folder')
+  const [url, setUrl] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
   const inspect = async (fileList: FileList | File[]) => {
@@ -59,6 +62,33 @@ export default function InspectorPanel({ project }: { project: Project }) {
     }
   }
 
+  const inspectUrl = async () => {
+    const target = url.trim()
+    if (!/^https?:\/\//i.test(target)) {
+      setError('请输入 http 或 https 开头的链接。')
+      return
+    }
+    setLoading(true)
+    setError('')
+    try {
+      const controller = new AbortController()
+      const timer = window.setTimeout(() => controller.abort(), 12000)
+      const response = await fetch(target, { signal: controller.signal })
+      window.clearTimeout(timer)
+      if (!response.ok) throw new Error('bad status')
+      const text = await response.text()
+      if (!text.trim()) {
+        setError('链接返回内容为空。')
+        return
+      }
+      changeReport(inspectProject(project, [{ name: target, content: text }]))
+    } catch {
+      setError('无法读取该链接：可能被跨域限制或站点拒绝访问，请改用文件夹提交。')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <section className="inspector">
       <div className="note-head">
@@ -69,40 +99,82 @@ export default function InspectorPanel({ project }: { project: Project }) {
         <span className="note-hint">本地规则引擎分析，文件不会上传</span>
       </div>
 
-      <div
-        className={`inspector-drop${dragging ? ' is-dragging' : ''}`}
-        onDragOver={(event) => {
-          event.preventDefault()
-          setDragging(true)
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={onDrop}
-        onClick={() => inputRef.current?.click()}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') inputRef.current?.click()
-        }}
-      >
-        <FolderUp size={26} aria-hidden="true" />
-        <div>
-          <div className="inspector-drop-title">
-            {loading ? '正在检查…' : '上传项目文件夹'}
-          </div>
-          <div className="inspector-drop-sub">点击选择或拖入文件夹，支持 Node / Python / 前端项目</div>
-        </div>
-        <input
-          ref={inputRef}
-          type="file"
-          multiple
-          {...DIRECTORY_PROPS}
-          onChange={(event) => {
-            if (event.target.files) void inspect(event.target.files)
-            event.target.value = ''
+      <div className="inspector-mode" role="tablist" aria-label="提交方式">
+        <button
+          type="button"
+          className={`chip${mode === 'folder' ? ' is-active' : ''}`}
+          onClick={() => {
+            setMode('folder')
+            setError('')
           }}
-          hidden
-        />
+        >
+          文件夹
+        </button>
+        <button
+          type="button"
+          className={`chip${mode === 'link' ? ' is-active' : ''}`}
+          onClick={() => {
+            setMode('link')
+            setError('')
+          }}
+        >
+          链接
+        </button>
       </div>
+
+      {mode === 'folder' ? (
+        <div
+          className={`inspector-drop${dragging ? ' is-dragging' : ''}`}
+          onDragOver={(event) => {
+            event.preventDefault()
+            setDragging(true)
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={onDrop}
+          onClick={() => inputRef.current?.click()}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') inputRef.current?.click()
+          }}
+        >
+          <FolderUp size={26} aria-hidden="true" />
+          <div>
+            <div className="inspector-drop-title">
+              {loading ? '正在检查…' : '上传项目文件夹'}
+            </div>
+            <div className="inspector-drop-sub">点击选择或拖入文件夹，支持 Node / Python / 前端项目</div>
+          </div>
+          <input
+            ref={inputRef}
+            type="file"
+            multiple
+            {...DIRECTORY_PROPS}
+            onChange={(event) => {
+              if (event.target.files) void inspect(event.target.files)
+              event.target.value = ''
+            }}
+            hidden
+          />
+        </div>
+      ) : (
+        <div className="url-submit">
+          <div className="searchbox" style={{ flex: 1 }}>
+            <Link2 size={16} aria-hidden="true" />
+            <input
+              className="text-input"
+              type="url"
+              value={url}
+              onChange={(event) => setUrl(event.target.value)}
+              placeholder="粘贴项目仓库或演示链接"
+              aria-label="项目链接"
+            />
+          </div>
+          <button className="primary-btn" type="button" onClick={() => void inspectUrl()}>
+            检查链接
+          </button>
+        </div>
+      )}
 
       {error && <p className="inspector-error">{error}</p>}
 

@@ -1,0 +1,24 @@
+{
+  "updated": "2026-10-14",
+  "source": "https://www.feishu.cn/community/article?id=7592079808767462628",
+  "articles": [
+    {
+      "id": "feishu-agent-guide",
+      "title": "一站式 AI Agent 入门指南",
+      "author": "Jack",
+      "date": "2026-01-06",
+      "url": "https://www.feishu.cn/community/article?id=7592079808767462628",
+      "summary": "新手学 Agent 智能体必看！本文涵盖核心概念解析、开发工具搭建、5 大实操步骤、场景实战案例及避坑指南，帮你快速掌握 Agent 智能体开发。",
+      "topics": ["核心概念解析", "开发工具搭建", "5 大实操步骤", "场景实战案例", "避坑指南"],
+      "note": "正文为飞书社区动态加载，请在原文打开阅读。"
+    }
+  ],
+  "resources": [
+    {
+      "id": "waytoagi-wiki",
+      "title": "WaytoAGI 知识库",
+      "url": "https://waytoagi.feishu.cn/wiki/GFS0wJB78izVBmk3LVgcCn2MnCh",
+      "note": "该知识库需要飞书登录后查看。"
+    }
+  ]
+}

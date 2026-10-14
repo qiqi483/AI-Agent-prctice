@@ -1088,6 +1088,194 @@ button {
   color: var(--text);
 }
 
+/* Inspector modes */
+.inspector-mode {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.url-submit {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.url-submit .searchbox {
+  flex: 1;
+}
+
+/* Auth modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.modal {
+  position: relative;
+  width: min(420px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: none;
+  color: var(--text-muted);
+  border-radius: 8px;
+}
+
+.modal-close:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.auth-tab {
+  border: 0;
+  background: none;
+  padding: 8px 4px;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.auth-tab.is-active {
+  color: var(--text);
+  border-bottom-color: var(--accent-a);
+}
+
+.code-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.code-row .text-input {
+  flex: 1;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-faint);
+  font-size: 12px;
+  margin: 16px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.wechat-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-weight: 600;
+}
+
+.wechat-btn:hover {
+  border-color: var(--border-strong);
+}
+
+.auth-note {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  color: var(--text-faint);
+  font-size: 12px;
+  margin: 14px 0 0;
+}
+
+/* Forum */
+.forum-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.forum-preview {
+  max-width: 220px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin-top: 10px;
+}
+
+.forum-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.forum-post {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.forum-post-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.forum-author {
+  font-weight: 700;
+}
+
+.forum-content {
+  margin: 10px 0 0;
+  color: var(--text);
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+.forum-image {
+  max-width: 100%;
+  max-height: 320px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin-top: 10px;
+}
+
 /* Empty & error states */
 .empty-state {
   display: flex;
