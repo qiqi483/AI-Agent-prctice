@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Check, Save } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { useAgentConfig } from '../lib/storage'
 import type { AgentConfig } from '../lib/types'
 
 const AGENT_OPTIONS = ['Claude Code', 'Codex CLI', 'Cursor', 'OpenHands', '其他']
 
 export default function MyAgent() {
+  const { user, requireLogin } = useAuth()
   const [agent, changeAgent] = useAgentConfig()
   const [form, setForm] = useState<AgentConfig>(agent)
   const [saved, setSaved] = useState(false)
@@ -16,9 +18,17 @@ export default function MyAgent() {
     setSaved(false)
   }
 
-  const save = () => {
+  const persist = () => {
     changeAgent({ ...form, nickname: form.nickname.trim() })
     setSaved(true)
+  }
+
+  const save = () => {
+    if (!user) {
+      requireLogin(() => persist())
+      return
+    }
+    persist()
   }
 
   useEffect(() => {

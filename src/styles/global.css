@@ -855,6 +855,17 @@ button {
   font-size: 12px;
 }
 
+.lock-hint {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.note-locked {
+  display: grid;
+  gap: 10px;
+}
+
 .textarea {
   width: 100%;
   min-height: 180px;

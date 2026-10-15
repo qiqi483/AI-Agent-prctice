@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   XCircle,
 } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 import { inspectProject, readFolderFiles } from '../lib/inspector'
 import { useReport } from '../lib/storage'
 import type { InspectorFinding, InspectorReport, Project } from '../lib/types'
@@ -29,6 +30,7 @@ function FindingIcon({ level }: { level: InspectorFinding['level'] }) {
 }
 
 export default function InspectorPanel({ project }: { project: Project }) {
+  const { user, requireLogin } = useAuth()
   const [report, changeReport] = useReport(project.id)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -38,6 +40,10 @@ export default function InspectorPanel({ project }: { project: Project }) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const inspect = async (fileList: FileList | File[]) => {
+    if (!user) {
+      requireLogin()
+      return
+    }
     setLoading(true)
     setError('')
     try {
@@ -57,12 +63,20 @@ export default function InspectorPanel({ project }: { project: Project }) {
   const onDrop = (event: DragEvent) => {
     event.preventDefault()
     setDragging(false)
+    if (!user) {
+      requireLogin()
+      return
+    }
     if (event.dataTransfer.files.length) {
       void inspect(event.dataTransfer.files)
     }
   }
 
   const inspectUrl = async () => {
+    if (!user) {
+      requireLogin()
+      return
+    }
     const target = url.trim()
     if (!/^https?:\/\//i.test(target)) {
       setError('请输入 http 或 https 开头的链接。')
@@ -99,6 +113,8 @@ export default function InspectorPanel({ project }: { project: Project }) {
         <span className="note-hint">本地规则引擎分析，文件不会上传</span>
       </div>
 
+      {!user && <p className="lock-hint">登录后可使用 AI 检察官。</p>}
+
       <div className="inspector-mode" role="tablist" aria-label="提交方式">
         <button
           type="button"
@@ -131,10 +147,20 @@ export default function InspectorPanel({ project }: { project: Project }) {
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          onClick={() => inputRef.current?.click()}
+          onClick={() => {
+            if (!user) {
+              requireLogin()
+              return
+            }
+            inputRef.current?.click()
+          }}
           role="button"
           tabIndex={0}
           onKeyDown={(event) => {
+            if (!user) {
+              requireLogin()
+              return
+            }
             if (event.key === 'Enter' || event.key === ' ') inputRef.current?.click()
           }}
         >

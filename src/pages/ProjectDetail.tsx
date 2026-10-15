@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import DifficultyBadge from '../components/DifficultyBadge'
 import EmptyState from '../components/EmptyState'
 import InspectorPanel from '../components/InspectorPanel'
+import { useAuth } from '../context/AuthContext'
 import { getProject, SOURCE_URL } from '../lib/data'
 import { useAgentConfig, useCompleted, useNote } from '../lib/storage'
 
@@ -18,6 +19,7 @@ export default function ProjectDetail() {
   const [agent] = useAgentConfig()
   const { isDone, toggle } = useCompleted()
   const [note, setNote] = useNote(id ?? '')
+  const { user, requireLogin } = useAuth()
 
   if (!project) {
     return (
@@ -151,26 +153,45 @@ export default function ProjectDetail() {
         <button
           type="button"
           className={`checkin${done ? ' is-done' : ''}`}
-          onClick={() => toggle(project.id)}
+          onClick={() => {
+            if (!user) {
+              requireLogin(() => toggle(project.id))
+              return
+            }
+            toggle(project.id)
+          }}
           aria-pressed={done}
         >
           <Play size={16} aria-hidden="true" />
           {done ? '已完成，取消打卡' : '完成打卡'}
         </button>
 
-        <section className="note-panel" style={{ marginTop: 18 }}>
-          <div className="note-head">
-            <h2>练习笔记</h2>
-            <span className="note-hint">支持 Markdown，自动保存到本地</span>
-          </div>
-          <textarea
-            className="textarea"
-            value={note}
-            onChange={(event) => setNote(event.target.value)}
-            placeholder={'记录跑通过程、卡点和下一步计划…\n\n## 今天做了什么\n'}
-            aria-label="练习笔记"
-          />
-        </section>
+        {user ? (
+          <section className="note-panel" style={{ marginTop: 18 }}>
+            <div className="note-head">
+              <h2>练习笔记</h2>
+              <span className="note-hint">支持 Markdown，自动保存到本地</span>
+            </div>
+            <textarea
+              className="textarea"
+              value={note}
+              onChange={(event) => setNote(event.target.value)}
+              placeholder={'记录跑通过程、卡点和下一步计划…\n\n## 今天做了什么\n'}
+              aria-label="练习笔记"
+            />
+          </section>
+        ) : (
+          <section className="note-panel note-locked" style={{ marginTop: 18 }}>
+            <div className="note-head">
+              <h2>练习笔记</h2>
+              <span className="note-hint">登录后可用</span>
+            </div>
+            <p className="lock-hint">登录后可以记录每一步的卡点与下一步计划。</p>
+            <button className="primary-btn" type="button" onClick={() => requireLogin()}>
+              登录后记笔记
+            </button>
+          </section>
+        )}
 
         <InspectorPanel project={project} />
       </div>

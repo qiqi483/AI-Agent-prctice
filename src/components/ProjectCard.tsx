@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { formatStars } from '../lib/data'
 import type { Project } from '../lib/types'
 import DifficultyBadge from './DifficultyBadge'
@@ -13,6 +14,16 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index, isDone, onToggle }: ProjectCardProps) {
+  const { user, requireLogin } = useAuth()
+
+  const toggle = () => {
+    if (!user) {
+      requireLogin(() => onToggle(project.id))
+      return
+    }
+    onToggle(project.id)
+  }
+
   return (
     <motion.article
       className="project-card"
@@ -44,7 +55,7 @@ export default function ProjectCard({ project, index, isDone, onToggle }: Projec
         <button
           type="button"
           className={`done-toggle${isDone ? ' is-done' : ''}`}
-          onClick={() => onToggle(project.id)}
+          onClick={toggle}
           aria-pressed={isDone}
         >
           <span className="done-box" aria-hidden="true">
