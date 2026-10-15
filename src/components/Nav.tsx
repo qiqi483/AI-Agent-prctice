@@ -1,6 +1,7 @@
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Settings, Sun } from 'lucide-react'
 import { Link, NavLink } from 'react-router-dom'
-import { useAgentConfig, useTheme } from '../lib/storage'
+import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../lib/storage'
 
 const LINKS = [
   { to: '/', label: '首页' },
@@ -13,8 +14,8 @@ const LINKS = [
 
 export default function Nav() {
   const [theme, changeTheme] = useTheme()
-  const [agent] = useAgentConfig()
-  const initial = agent.nickname.trim().charAt(0).toUpperCase() || '我'
+  const { user } = useAuth()
+  const initial = (user?.nickname ?? '').trim().charAt(0).toUpperCase() || '我'
 
   return (
     <nav className="container nav" aria-label="主导航">
@@ -40,6 +41,9 @@ export default function Nav() {
       </div>
 
       <div className="nav-actions">
+        <Link className="icon-btn" to="/settings" title="设置" aria-label="设置">
+          <Settings size={17} />
+        </Link>
         <button
           type="button"
           className="icon-btn"
@@ -52,10 +56,10 @@ export default function Nav() {
         <Link
           className="avatar"
           to="/my-agent"
-          title={agent.nickname ? `我的 Agent：${agent.nickname}` : '配置我的 Agent'}
+          title={user?.nickname ? `我的 Agent：${user.nickname}` : '配置我的 Agent'}
           aria-label="我的 Agent"
         >
-          {initial}
+          {user?.avatar ? <img className="avatar-img" src={user.avatar} alt="头像" /> : initial}
         </Link>
       </div>
     </nav>

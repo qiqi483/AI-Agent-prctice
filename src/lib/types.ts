@@ -76,7 +76,11 @@ export interface LearningResource {
 
 export interface AuthUser {
   nickname: string
+  phone?: string
+  avatar?: string
+  passwordHash?: string
   method: 'password' | 'wechat'
+  encouragement?: string
 }
 
 export interface ForumPost {

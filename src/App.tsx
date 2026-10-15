@@ -10,6 +10,7 @@ import Learning from './pages/Learning'
 import MyAgent from './pages/MyAgent'
 import ProjectDetail from './pages/ProjectDetail'
 import Projects from './pages/Projects'
+import Settings from './pages/Settings'
 import { GITHUB_REPO_URL } from './config'
 import { SOURCE_URL, updatedAt } from './lib/data'
 
@@ -40,6 +41,7 @@ export default function App() {
                 <Route path="/learn" element={<Learning />} />
                 <Route path="/forum" element={<Forum />} />
                 <Route path="/my-agent" element={<MyAgent />} />
+                <Route path="/settings" element={<Settings />} />
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<Home />} />
               </Routes>

@@ -9,6 +9,7 @@ const KEYS = {
   notes: 'notes',
   reports: 'reports',
   auth: 'auth',
+  session: 'session',
   posts: 'posts',
 } as const
 
@@ -44,6 +45,7 @@ const store: {
   notes: Record<string, string>
   reports: Record<string, InspectorReport>
   auth: AuthUser | null
+  session: boolean
   posts: ForumPost[]
 } = {
   theme: read<ThemeMode>(KEYS.theme, 'dark'),
@@ -52,6 +54,7 @@ const store: {
   notes: read<Record<string, string>>(KEYS.notes, {}),
   reports: read<Record<string, InspectorReport>>(KEYS.reports, {}),
   auth: read<AuthUser | null>(KEYS.auth, null),
+  session: read<boolean>(KEYS.session, false),
   posts: read<ForumPost[]>(KEYS.posts, []),
 }
 
@@ -200,23 +203,48 @@ export function useReport(id: string): [InspectorReport | undefined, (report: In
 }
 
 export function getAuthUser(): AuthUser | null {
+  return store.session ? store.auth : null
+}
+
+export function getAccount(): AuthUser | null {
   return store.auth
 }
 
-export function signIn(user: AuthUser): void {
+export function registerUser(user: AuthUser): void {
   store.auth = user
+  store.session = true
   write(KEYS.auth, user)
+  write(KEYS.session, true)
+  emitChange()
+}
+
+export function loginUser(user: AuthUser): void {
+  store.auth = { ...(store.auth ?? {}), ...user }
+  store.session = true
+  write(KEYS.auth, store.auth)
+  write(KEYS.session, true)
   emitChange()
 }
 
 export function signOut(): void {
-  store.auth = null
-  write(KEYS.auth, null)
+  store.session = false
+  write(KEYS.session, false)
+  emitChange()
+}
+
+export function updateAuthUser(patch: Partial<AuthUser>): void {
+  if (!store.auth) return
+  store.auth = { ...store.auth, ...patch }
+  write(KEYS.auth, store.auth)
   emitChange()
 }
 
 export function useAuthUser(): AuthUser | null {
   return useStore(getAuthUser)
+}
+
+export function useAccount(): AuthUser | null {
+  return useStore(getAccount)
 }
 
 export function getPosts(): ForumPost[] {
