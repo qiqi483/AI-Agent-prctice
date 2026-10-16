@@ -138,7 +138,7 @@ export default function ProjectDetail() {
             <div style={{ display: 'grid', gap: 10 }}>
               <a className="ref-link" href={project.github} target="_blank" rel="noopener noreferrer">
                 <ExternalLink size={14} aria-hidden="true" />
-                GitHub 仓库
+                {project.github.startsWith('https://github.com') ? 'GitHub 仓库' : '项目来源'}
               </a>
               <a className="ref-link" href={SOURCE_URL} target="_blank" rel="noopener noreferrer">
                 <ExternalLink size={14} aria-hidden="true" />

@@ -485,6 +485,98 @@
         "能扩展：跨语言部署一个 Agent 工作流"
       ],
       "recommendation": "如果你在 .NET 或 Azure 生态，优先看它；其他开发者可用来对照 AutoGen 的迁移路线。"
+    },
+    {
+      "id": "codeguardian-ai",
+      "name": "CodeGuardian AI",
+      "repo": "susan.net.cn/project",
+      "direction": "Coding Agent",
+      "difficulty": "advanced",
+      "summary": "面向企业与团队的智能代码审查 Agent，把静态分析与 LLM 结合，提供多语言、多维度、可落地的代码问题识别与修复建议，并与 Git/CI/CD 集成生成专业报告。",
+      "tech": ["Java 21", "Spring Boot 3", "Spring AI", "PostgreSQL", "Redis", "MinIO"],
+      "github": "https://juejin.cn/post/7620226704208904232",
+      "stars": 0,
+      "learnPoints": ["AI + 规则引擎", "RAG 增强", "Function Calling", "代码审查报告"],
+      "steps": [
+        "先跑通单文件审查，理解 LLM 与规则引擎的分工",
+        "接入一个 Git 仓库，做 PR 前的增量审查",
+        "观察 RAG 检索如何为审查建议补充相似问题与修复示例"
+      ],
+      "acceptance": [
+        "能跑通：对一段代码产出结构化审查报告",
+        "能讲清楚：LLM 与规则引擎、RAG 如何协作",
+        "能扩展：新增一条自定义规范或审查规则"
+      ],
+      "recommendation": "适合练习「AI + 规则引擎 + RAG」的组合范式，先跑通单文件审查再接入 Git。"
+    },
+    {
+      "id": "weather-agent",
+      "name": "智能天气播报 AI Agent",
+      "repo": "susan.net.cn/project",
+      "direction": "浏览器 / 垂直领域",
+      "difficulty": "beginner",
+      "summary": "基于 Spring Boot 3 与通义千问的智能天气播报 Agent，实时获取天气并自然语言播报，附带穿衣、出行建议与语音播报。",
+      "tech": ["Java 21", "Spring Boot 3", "Spring AI Alibaba", "通义千问", "Redis"],
+      "github": "https://juejin.cn/post/7620226704208904232",
+      "stars": 0,
+      "learnPoints": ["Spring AI Alibaba", "通义千问", "语音合成", "天气数据缓存"],
+      "steps": [
+        "跑通天气数据获取与通义千问解读",
+        "加入穿衣、出行建议的结构化输出",
+        "接入语音合成并缓存天气数据"
+      ],
+      "acceptance": [
+        "能跑通：输入城市得到自然语言天气播报",
+        "能讲清楚：LLM 如何把天气数据转成播报文案",
+        "能扩展：新增语音播报或更多城市切换"
+      ],
+      "recommendation": "作为第一个 Java Agent 小项目，先跑通「取数据 → 模型解读 → 自然语言输出」。"
+    },
+    {
+      "id": "translate-agent",
+      "name": "智能翻译助手 AI Agent",
+      "repo": "susan.net.cn/project",
+      "direction": "浏览器 / 垂直领域",
+      "difficulty": "intermediate",
+      "summary": "完整的 AI 商业应用：支持多语言文本/文档翻译、实时对话翻译、术语库管理，并带会员、下单、支付与点数消费闭环。",
+      "tech": ["Java 21", "Spring Boot 3", "Spring AI", "Elasticsearch", "MinIO", "MySQL", "Redis"],
+      "github": "https://juejin.cn/post/7620226704208904232",
+      "stars": 0,
+      "learnPoints": ["多语言翻译", "RAG", "会员与支付", "文档翻译"],
+      "steps": [
+        "跑通文本翻译与术语库管理",
+        "加入文档翻译与实时对话翻译",
+        "拆解会员开通、支付与点数消费的闭环"
+      ],
+      "acceptance": [
+        "能跑通：完成一次多语言文本或文档翻译",
+        "能讲清楚：术语库与 RAG 如何提升翻译质量",
+        "能扩展：新增一种文件格式或一种语言"
+      ],
+      "recommendation": "适合练习完整商业应用的闭环，重点看会员、支付与点数消费如何设计。"
+    },
+    {
+      "id": "recommend-agent",
+      "name": "智能商品推荐 AI Agent",
+      "repo": "susan.net.cn/project",
+      "direction": "浏览器 / 垂直领域",
+      "difficulty": "advanced",
+      "summary": "面向电商/零售的对话式导购与交易系统，用 RAG + Function Calling 把商品推荐、加购、下单、查单、取消订单收敛到一个对话入口。",
+      "tech": ["Java 21", "Spring Boot 3", "Spring AI", "PostgreSQL + pgvector", "Redis", "MongoDB", "Thymeleaf"],
+      "github": "https://juejin.cn/post/7620226704208904232",
+      "stars": 0,
+      "learnPoints": ["RAG 推荐", "Function Calling", "对话式交易", "会话快照"],
+      "steps": [
+        "跑通商品向量检索与可解释推荐",
+        "用 Function Calling 完成加购、下单、查单、取消",
+        "加入会话历史与关键 UI 快照的恢复"
+      ],
+      "acceptance": [
+        "能跑通：在对话中完成一次商品推荐到下单",
+        "能讲清楚：RAG 与 Function Calling 的分工",
+        "能扩展：接入新的订单或购物车服务"
+      ],
+      "recommendation": "适合练习「RAG + 工具调用」的对话式工作流，先跑通推荐再到交易链路。"
     }
   ],
   "cases": [
