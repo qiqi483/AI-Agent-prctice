@@ -431,6 +431,41 @@ button {
   font-family: var(--font-mono);
 }
 
+/* Learning featured */
+.featured-list {
+  display: grid;
+  gap: 14px;
+}
+
+.learning-featured {
+  padding: 20px;
+  border: 1px solid var(--accent-a);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--accent-soft), var(--shadow-soft);
+}
+
+.featured-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.badge-required {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-b);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 /* Filter bar */
 .filterbar {
   display: grid;

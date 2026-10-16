@@ -65,6 +65,8 @@ export interface LearningArticle {
   summary: string
   topics: string[]
   note?: string
+  featured?: boolean
+  recommend?: string
 }
 
 export interface LearningResource {
