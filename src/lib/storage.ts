@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
-import type { AgentConfig, AuthUser, ForumPost, InspectorReport, ThemeMode } from './types'
+import type { AgentConfig, AuthUser, ForumComment, ForumPost, InspectorReport, ThemeMode } from './types'
 
 const PREFIX = 'apg:'
 const KEYS = {
@@ -253,6 +253,14 @@ export function getPosts(): ForumPost[] {
 
 export function addPost(post: ForumPost): void {
   store.posts = [post, ...store.posts]
+  write(KEYS.posts, store.posts)
+  emitChange()
+}
+
+export function addComment(postId: string, comment: ForumComment): void {
+  store.posts = store.posts.map((post) =>
+    post.id === postId ? { ...post, comments: [...(post.comments ?? []), comment] } : post,
+  )
   write(KEYS.posts, store.posts)
   emitChange()
 }

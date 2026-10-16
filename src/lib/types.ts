@@ -88,7 +88,17 @@ export interface AuthUser {
 export interface ForumPost {
   id: string
   author: string
+  avatar?: string
   content: string
   image?: string
+  createdAt: number
+  comments?: ForumComment[]
+}
+
+export interface ForumComment {
+  id: string
+  author: string
+  avatar?: string
+  content: string
   createdAt: number
 }
