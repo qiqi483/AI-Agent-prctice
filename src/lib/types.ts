@@ -102,3 +102,15 @@ export interface ForumComment {
   content: string
   createdAt: number
 }
+
+export interface Wallpaper {
+  id: string
+  name: string
+  url: string | null
+}
+
+export interface Wallpaper {
+  id: string
+  name: string
+  url: string | null
+}

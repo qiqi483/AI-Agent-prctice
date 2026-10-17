@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
-import { Camera, Check, LogOut, RefreshCw, Save, ShieldCheck, UserRound } from 'lucide-react'
+import { Camera, Check, Images, LogOut, RefreshCw, Save, ShieldCheck, UserRound } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { generateEncouragement } from '../lib/encouragement'
-import { updateAuthUser } from '../lib/storage'
+import { updateAuthUser, useWallpaper } from '../lib/storage'
+import { wallpapers } from '../lib/wallpapers'
 
 export default function Settings() {
   const { user, requireLogin, signOut } = useAuth()
+  const [wallpaperId, changeWallpaper] = useWallpaper()
   const [name, setName] = useState(user?.nickname ?? '')
   const [currentPw, setCurrentPw] = useState('')
   const [newPw, setNewPw] = useState('')
@@ -162,6 +164,34 @@ export default function Settings() {
               <ShieldCheck size={15} aria-hidden="true" />
               更新密码
             </button>
+          </div>
+        </section>
+
+        <section className="note-panel">
+          <div className="note-head">
+            <h2>
+              <Images size={16} aria-hidden="true" style={{ verticalAlign: '-3px', marginRight: 6 }} />
+              壁纸
+            </h2>
+            <span className="note-hint">全站生效，登录界面也会显示</span>
+          </div>
+          <div className="wallpaper-grid">
+            {wallpapers.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`wallpaper-item${wallpaperId === item.id ? ' is-active' : ''}`}
+                onClick={() => changeWallpaper(item.id)}
+              >
+                <span
+                  className="wallpaper-thumb"
+                  style={item.url ? { backgroundImage: `url("${item.url}")` } : undefined}
+                >
+                  {!item.url && <span className="wallpaper-default">默认</span>}
+                </span>
+                <span className="wallpaper-name">{item.name}</span>
+              </button>
+            ))}
           </div>
         </section>
 

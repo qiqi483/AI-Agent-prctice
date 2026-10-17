@@ -1326,6 +1326,65 @@ button {
   line-height: 1.7;
 }
 
+/* Wallpapers */
+.wallpaper-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 10px;
+}
+
+.wallpaper-item {
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-muted);
+}
+
+.wallpaper-item.is-active {
+  border-color: var(--accent-a);
+  color: var(--text);
+}
+
+.wallpaper-thumb {
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background-color: var(--surface-3);
+  background-size: cover;
+  background-position: center;
+}
+
+.wallpaper-default {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.wallpaper-name {
+  font-size: 12px;
+}
+
+html.has-wallpaper body {
+  background-color: var(--wallpaper-tint);
+  background-image: var(--wallpaper);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-blend-mode: multiply;
+}
+
+html.has-wallpaper .site-header,
+html.has-wallpaper .hero {
+  background-color: var(--wallpaper-tint);
+}
+
+html.has-wallpaper .hero {
+  background-image: none;
+}
+
 /* Forum */
 .forum-actions {
   display: flex;

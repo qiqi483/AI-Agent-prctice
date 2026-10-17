@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
 import type { AgentConfig, AuthUser, ForumComment, ForumPost, InspectorReport, ThemeMode } from './types'
+import { wallpapers } from './wallpapers'
 
 const PREFIX = 'apg:'
 const KEYS = {
@@ -11,6 +12,7 @@ const KEYS = {
   auth: 'auth',
   session: 'session',
   posts: 'posts',
+  wallpaper: 'wallpaper',
 } as const
 
 function read<T>(key: string, fallback: T): T {
@@ -47,6 +49,7 @@ const store: {
   auth: AuthUser | null
   session: boolean
   posts: ForumPost[]
+  wallpaper: string | null
 } = {
   theme: read<ThemeMode>(KEYS.theme, 'dark'),
   agent: read<AgentConfig>(KEYS.agent, DEFAULT_AGENT),
@@ -56,7 +59,21 @@ const store: {
   auth: read<AuthUser | null>(KEYS.auth, null),
   session: read<boolean>(KEYS.session, false),
   posts: read<ForumPost[]>(KEYS.posts, []),
+  wallpaper: read<string | null>(KEYS.wallpaper, null),
 }
+
+function applyWallpaper(id: string | null): void {
+  const item = wallpapers.find((wallpaper) => wallpaper.id === id)
+  const url = item?.url ?? null
+  document.documentElement.classList.toggle('has-wallpaper', Boolean(url))
+  if (url) {
+    document.documentElement.style.setProperty('--wallpaper', `url("${url}")`)
+  } else {
+    document.documentElement.style.removeProperty('--wallpaper')
+  }
+}
+
+applyWallpaper(store.wallpaper)
 
 type Listener = () => void
 const listeners = new Set<Listener>()
@@ -267,4 +284,25 @@ export function addComment(postId: string, comment: ForumComment): void {
 
 export function usePosts(): ForumPost[] {
   return useStore(getPosts)
+}
+
+export function getWallpaper(): string | null {
+  return store.wallpaper
+}
+
+export function setWallpaper(id: string | null): void {
+  store.wallpaper = id
+  write(KEYS.wallpaper, id)
+  applyWallpaper(id)
+  emitChange()
+}
+
+export function useWallpaper(): [string | null, (id: string | null) => void] {
+  const id = useStore(getWallpaper)
+
+  const changeWallpaper = useCallback((next: string | null) => {
+    setWallpaper(next)
+  }, [])
+
+  return [id, changeWallpaper]
 }

@@ -1,0 +1,11 @@
+{
+  "wallpapers": [
+    { "id": "default", "name": "默认渐变", "url": null },
+    { "id": "w1", "name": "壁纸 1", "url": "https://pic3.zhimg.com/v2-0c81f341bb5856852f77eb9fc64e95d8_r.jpg?source=1940ef5c" },
+    { "id": "w2", "name": "壁纸 2", "url": "https://img.alicdn.com/imgextra/i2/2208621566932/O1CN01pfX8fc214uDf5xW0A_!!2208621566932.jpg" },
+    { "id": "w3", "name": "壁纸 3", "url": "https://img-baofun.zhhainiao.com/pcwallpaper_ugc/static/6fff8ae7377971625147cb8a55036496.jpg" },
+    { "id": "w4", "name": "壁纸 4", "url": "https://c-ssl.duitang.com/uploads/item/202007/13/20200713000851_nNTRv.jpeg" },
+    { "id": "w5", "name": "壁纸 5", "url": "https://pic.ibaotu.com/original/01/89/58/36T888piCRf8.jpg!ww7006" },
+    { "id": "w6", "name": "壁纸 6", "url": "https://c-ssl.dtstatic.com/uploads/blog/202106/16/20210616083210_887c5.thumb.1000_0.jpg" }
+  ]
+}
