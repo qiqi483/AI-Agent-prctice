@@ -109,6 +109,22 @@ export interface Wallpaper {
   url: string | null
 }
 
+export interface PracticePrompt {
+  generated?: string
+  submitted?: string
+  score?: number
+  feedback?: string[]
+  revised?: string
+}
+
+export interface PracticePrompt {
+  generated?: string
+  submitted?: string
+  score?: number
+  feedback?: string[]
+  revised?: string
+}
+
 export interface Wallpaper {
   id: string
   name: string

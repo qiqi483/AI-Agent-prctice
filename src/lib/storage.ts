@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
-import type { AgentConfig, AuthUser, ForumComment, ForumPost, InspectorReport, ThemeMode } from './types'
+import type { AgentConfig, AuthUser, ForumComment, ForumPost, InspectorReport, PracticePrompt, ThemeMode } from './types'
 import { wallpapers } from './wallpapers'
 
 const PREFIX = 'apg:'
@@ -13,6 +13,7 @@ const KEYS = {
   session: 'session',
   posts: 'posts',
   wallpaper: 'wallpaper',
+  prompts: 'prompts',
 } as const
 
 function read<T>(key: string, fallback: T): T {
@@ -50,6 +51,7 @@ const store: {
   session: boolean
   posts: ForumPost[]
   wallpaper: string | null
+  prompts: Record<string, PracticePrompt>
 } = {
   theme: read<ThemeMode>(KEYS.theme, 'dark'),
   agent: read<AgentConfig>(KEYS.agent, DEFAULT_AGENT),
@@ -60,6 +62,7 @@ const store: {
   session: read<boolean>(KEYS.session, false),
   posts: read<ForumPost[]>(KEYS.posts, []),
   wallpaper: read<string | null>(KEYS.wallpaper, null),
+  prompts: read<Record<string, PracticePrompt>>(KEYS.prompts, {}),
 }
 
 function applyWallpaper(id: string | null): void {
@@ -305,4 +308,24 @@ export function useWallpaper(): [string | null, (id: string | null) => void] {
   }, [])
 
   return [id, changeWallpaper]
+}
+
+export function getPrompt(id: string): PracticePrompt | undefined {
+  return store.prompts[id]
+}
+
+export function setPrompt(id: string, prompt: PracticePrompt): void {
+  store.prompts = { ...store.prompts, [id]: prompt }
+  write(KEYS.prompts, store.prompts)
+  emitChange()
+}
+
+export function usePrompt(id: string): [PracticePrompt | undefined, (prompt: PracticePrompt) => void] {
+  const prompt = useStore(() => getPrompt(id))
+
+  const changePrompt = useCallback((next: PracticePrompt) => {
+    setPrompt(id, next)
+  }, [id])
+
+  return [prompt, changePrompt]
 }

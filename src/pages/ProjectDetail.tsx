@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import DifficultyBadge from '../components/DifficultyBadge'
 import EmptyState from '../components/EmptyState'
 import InspectorPanel from '../components/InspectorPanel'
+import PromptCoach from '../components/PromptCoach'
 import { useAuth } from '../context/AuthContext'
 import { getProject, SOURCE_URL } from '../lib/data'
 import { useAgentConfig, useCompleted, useNote } from '../lib/storage'
@@ -147,6 +148,10 @@ export default function ProjectDetail() {
             </div>
           </section>
         </aside>
+      </div>
+
+      <div className="container">
+        <PromptCoach project={project} />
       </div>
 
       <div className="container" style={{ paddingBottom: 40 }}>
