@@ -66,3 +66,61 @@ curl.exe -L --ssl-no-revoke -H "User-Agent: agent-project-gym-scraper" \
 3. push 后 Actions 会自动执行 `.github/workflows/deploy.yml` 构建并发布，稍等片刻访问 `https://<user>.github.io/<repo>/`。
 
 部署前把 `src/config.ts` 中的 `GITHUB_REPO_URL` 替换为你的仓库地址。
+
+## 阿里云 Docker Compose 部署
+
+先在本机构建：
+
+```bash
+npm install
+npm run build
+```
+
+把 `dist` 与 `deploy` 上传到服务器，例如：
+
+```bash
+scp -r dist deploy root@8.166.100.79:/opt/agent-gym/
+```
+
+在服务器上启动：
+
+```bash
+cd /opt/agent-gym/deploy
+docker compose up -d
+```
+
+Nginx 默认监听 80 端口。首次启动后如果访问返回 403，通常是 `dist` 目录权限导致 Nginx 工作进程无法读取：
+
+```bash
+chmod 755 /opt/agent-gym/dist
+docker restart agent-gym
+```
+
+## 阿里云 Docker Compose 部署
+
+先在本机构建：
+
+```bash
+npm install
+npm run build
+```
+
+把 `dist` 与 `deploy` 上传到服务器，例如：
+
+```bash
+scp -r dist deploy root@8.166.100.79:/opt/agent-gym/
+```
+
+在服务器上启动：
+
+```bash
+cd /opt/agent-gym/deploy
+docker compose up -d
+```
+
+Nginx 默认监听 80 端口。首次启动后如果访问返回 403，通常是 `dist` 目录权限导致 Nginx 工作进程无法读取：
+
+```bash
+chmod 755 /opt/agent-gym/dist
+docker restart agent-gym
+```
